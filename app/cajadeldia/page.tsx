@@ -331,7 +331,7 @@ export default function CajaDelDia() {
               return;
             }
 
-            const producto = productos.find((p: any) => p._id === productoId);
+            const producto = productos.find((p: any): p is { stock: number } => p._id === productoId);
 
             if (!producto || cantidad > producto.stock) {
               Swal.fire(

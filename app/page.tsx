@@ -85,7 +85,7 @@ export default function Home() {
 
         try {
           const response = await axios.post(
-            "http://localhost:5000/api/usuarios/register",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/usuarios/register`,
             {
               nombre,
               email,
@@ -138,7 +138,7 @@ export default function Home() {
 
         try {
           const response = await axios.post(
-            "http://localhost:5000/api/usuarios/login",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/usuarios/login`,
             { nombre, contraseña }
           );
           if (response.status === 200) {

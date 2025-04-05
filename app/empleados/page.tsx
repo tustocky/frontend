@@ -30,8 +30,8 @@ export default function Empleados() {
   const fetchEmpleados = async (userId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/empleados/${userId}`
-      );
+        `${process.env.NEXT_PUBLIC_API_URL}/api/empleados/${userId}`
+      );      
       setEmpleados(response.data);
       setFilteredEmpleados(response.data);
     } catch (error) {
@@ -74,13 +74,13 @@ export default function Empleados() {
 
         try {
           const response = await axios.post(
-            "http://localhost:5000/api/empleados",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/empleados`,
             {
               nombre,
               dni,
               usuarioId: userId,
             }
-          );
+          );          
 
           if (response.status === 201) {
             fetchEmpleados(userId);
@@ -116,13 +116,13 @@ export default function Empleados() {
 
         try {
           const response = await axios.put(
-            `http://localhost:5000/api/empleados/${empleado._id}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/empleados/${empleado._id}`,
             {
               nombre,
               dni,
               usuarioId: userId,
             }
-          );
+          );          
 
           if (response.status === 200) {
             fetchEmpleados(userId);
@@ -138,9 +138,12 @@ export default function Empleados() {
 
   const deleteEmployee = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/empleados/${id}`, {
-        data: { usuarioId: userId },
-      });
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/empleados/${id}`,
+        {
+          data: { usuarioId: userId },
+        }
+      );      
       fetchEmpleados(userId);
       Swal.fire("Eliminado", "Empleado eliminado correctamente", "success");
     } catch (error) {

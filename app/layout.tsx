@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        <link rel="icon" type="image/png" href="/s-pestaña.png" />
+        <link rel="icon" href="/stocky.ico" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}

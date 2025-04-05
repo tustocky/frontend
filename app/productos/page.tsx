@@ -33,8 +33,8 @@ export default function Productos() {
   const fetchProductos = async (userId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/productos/${userId}`
-      );
+        `${process.env.NEXT_PUBLIC_API_URL}/api/productos/${userId}`
+      );      
       setProductos(response.data);
       setFilteredProductos(response.data); // Copia original para filtrado
     } catch (error) {
@@ -45,8 +45,8 @@ export default function Productos() {
   const fetchCategorias = async (userId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/categorias/${userId}`
-      );
+        `${process.env.NEXT_PUBLIC_API_URL}/api/categorias/${userId}`
+      );      
       setCategorias(response.data);
     } catch (error) {
       console.error("Error al obtener categorías", error);
@@ -103,7 +103,7 @@ export default function Productos() {
 
         try {
           const response = await axios.post(
-            "http://localhost:5000/api/productos",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/productos`,
             {
               nombre,
               idCategoria,
@@ -111,7 +111,7 @@ export default function Productos() {
               precioVenta: parseFloat(precioVenta),
               usuarioId: userId,
             }
-          );
+          );          
 
           if (response.status === 201) {
             fetchProductos(userId);
@@ -178,7 +178,7 @@ export default function Productos() {
 
         try {
           const response = await axios.put(
-            `http://localhost:5000/api/productos/${producto._id}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/productos/${producto._id}`,
             {
               nombre,
               idCategoria,
@@ -186,7 +186,7 @@ export default function Productos() {
               precioVenta: parseFloat(precioVenta),
               usuarioId: userId,
             }
-          );
+          );          
 
           if (response.status === 200) {
             fetchProductos(userId);
@@ -287,7 +287,7 @@ export default function Productos() {
 
         try {
           const response = await axios.post(
-            "http://localhost:5000/api/productos",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/productos`,
             {
               nombre,
               idCategoria,
@@ -295,7 +295,7 @@ export default function Productos() {
               precioVenta: parseFloat(precioVenta),
               usuarioId: userId,
             }
-          );
+          );          
 
           if (response.status === 201) {
             fetchProductos(userId);
@@ -311,9 +311,9 @@ export default function Productos() {
 
   const deleteProduct = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/productos/${id}`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/productos/${id}`, {
         data: { usuarioId: userId },
-      });
+      });      
       fetchProductos(userId);
       Swal.fire("Eliminado", "Producto eliminado correctamente", "success");
     } catch (error) {

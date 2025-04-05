@@ -32,8 +32,8 @@ export default function Stock() {
   const fetchProductos = async (userId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/productos/${userId}`
-      );
+        `${process.env.NEXT_PUBLIC_API_URL}/api/productos/${userId}`
+      );      
       setProductos(response.data);
     } catch (error) {
       console.error("Error al obtener productos", error);
@@ -43,8 +43,8 @@ export default function Stock() {
   const fetchStock = async (userId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/stock/${userId}`
-      );
+        `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${userId}`
+      );      
       setStockItems(response.data);
       setFilteredStock(response.data);
     } catch (error) {
@@ -98,11 +98,11 @@ export default function Stock() {
         }
 
         try {
-          await axios.post("http://localhost:5000/api/stock", {
+          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/stock`, {
             productoId,
             cantidad: parseInt(cantidad),
             usuarioId: userId,
-          });
+          });          
 
           fetchStock(userId);
           return true;
@@ -137,10 +137,13 @@ export default function Stock() {
         }
 
         try {
-          await axios.put(`http://localhost:5000/api/stock/${stockItem._id}`, {
-            cantidad: parseInt(cantidad),
-            usuarioId: userId,
-          });
+          await axios.put(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${stockItem._id}`,
+            {
+              cantidad: parseInt(cantidad),
+              usuarioId: userId,
+            }
+          );          
 
           fetchStock(userId);
           return true;
@@ -163,9 +166,12 @@ export default function Stock() {
         cancelButtonText: "Cancelar",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await axios.delete(`http://localhost:5000/api/stock/${id}`, {
-            data: { usuarioId: userId },
-          });
+          await axios.delete(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/stock/${id}`,
+            {
+              data: { usuarioId: userId },
+            }
+          );          
           fetchStock(userId);
           Swal.fire("Eliminado", "Stock eliminado correctamente", "success");
         }

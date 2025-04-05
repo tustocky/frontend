@@ -57,8 +57,8 @@ export default function CajaDelDia() {
   const fetchVentas = async (userId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/ventas/ventas?userId=${userId}`
-      );
+        `${process.env.NEXT_PUBLIC_API_URL}/api/ventas/ventas?userId=${userId}`
+      );      
 
       const ventas = response.data;
       setVentas(ventas);
@@ -76,8 +76,8 @@ export default function CajaDelDia() {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/productos/productos-con-stock/${userId}`
-      );
+        `${process.env.NEXT_PUBLIC_API_URL}/api/productos/productos-con-stock/${userId}`
+      );      
       setProductos(response.data);
     } catch (error) {
       console.error("Error al obtener productos con stock disponible:", error);
@@ -87,8 +87,8 @@ export default function CajaDelDia() {
   const fetchEmpleados = async (userId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/empleados/${userId}`
-      );
+        `${process.env.NEXT_PUBLIC_API_URL}/api/empleados/${userId}`
+      );      
       setEmpleados(response.data);
     } catch (error) {
       console.error("Error al obtener empleados", error);
@@ -252,7 +252,7 @@ export default function CajaDelDia() {
 
           try {
             const response = await axios.post(
-              "http://localhost:5000/api/ventas",
+              `${process.env.NEXT_PUBLIC_API_URL}/api/ventas`,
               {
                 usuarioId: userId,
                 productos: productosSeleccionados.map((prod) => ({
@@ -260,11 +260,10 @@ export default function CajaDelDia() {
                   cantidad: prod.cantidad,
                   total: prod.total,
                 })),
-                // Quitamos "fecha" y "hora", pues las asigna el servidor
                 empleadoId,
                 medioPago,
               }
-            );
+            );            
 
             if (response.status === 201) {
               fetchVentas(userId);
@@ -379,9 +378,9 @@ export default function CajaDelDia() {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:5000/api/ventas/${id}`, {
+        await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/ventas/${id}`, {
           data: { usuarioId: userId },
-        });
+        });        
         fetchVentas(userId);
         Swal.fire("Anulada", "La venta fue anulada correctamente", "success");
       } catch (error) {

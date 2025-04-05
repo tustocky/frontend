@@ -186,9 +186,9 @@ export default function Home() {
 
         try {
           const response = await axios.post(
-            "http://localhost:5000/api/tickets",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/tickets`,
             { description, userId }
-          );
+          );          
 
           if (response.status === 201) {
             Swal.fire(
@@ -232,8 +232,8 @@ export default function Home() {
         try {
           const userId = localStorage.getItem("userId");
           const response = await axios.get(
-            `http://localhost:5000/api/ventas/ventas?userId=${userId}&fecha=${selectedDate}`
-          );
+            `${process.env.NEXT_PUBLIC_API_URL}/api/ventas/ventas?userId=${userId}&fecha=${selectedDate}`
+          );          
 
           const ventas = response.data;
           if (!Array.isArray(ventas) || ventas.length === 0) {
@@ -368,6 +368,15 @@ export default function Home() {
     }
   };
 
+  const openNotificationsModal = () => {
+    MySwal.fire({
+      title: "Activar Notificaciones",
+      text: "Esta funcionalidad está en desarrollo.",
+      icon: "info",
+      confirmButtonText: "Aceptar",
+    });
+  };
+
   if (isAuthenticated) {
     if (isAdmin) {
       return (
@@ -411,7 +420,7 @@ export default function Home() {
           >
             <FontAwesomeIcon icon={faGear} />
           </button>
-          <button className="btn alert-btn" onClick={handleAlertSettings}>
+          <button className="btn alert-btn" onClick={openNotificationsModal}>
             <FontAwesomeIcon icon={faBell} />
           </button>
           <button className="btn calendar-btn" onClick={openCalendarModal}>
